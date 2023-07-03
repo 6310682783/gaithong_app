@@ -1,0 +1,21 @@
+@font-face {
+  font-family: "ntlbold";
+  src: url("../fonts/tidlor-bold-webfont.eot?#iefix")
+      format("embedded-opentype"),
+    url("../fonts/tidlor-bold-webfont.woff2") format("woff2"),
+    url("../fonts/tidlor-bold-webfont.woff") format("woff"),
+    url("../fonts/tidlor-bold-webfont.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ntlregular";
+  src: url("../fonts/tidlor-regular-webfont.eot?#iefix")
+      format("embedded-opentype"),
+    url("../fonts/tidlor-regular-webfont.woff2") format("woff2"),
+    url("../fonts/tidlor-regular-webfont.woff") format("woff"),
+    url("../fonts/tidlor-regular-webfont.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}

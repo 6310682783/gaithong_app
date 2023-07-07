@@ -1,11 +1,11 @@
 import "./App.css";
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./container/Reminder/Home";
+import Home from "./containers/Reminder/Home";
 import Layout from "./components/Layout/Layout";
-import Reminder from "./container/Reminder/Reminder";
-import AddReminder from "./container/Reminder/AddReminder";
-import UpdateReminder from "./container/Reminder/UpdateReminder";
+import Reminder from "./containers/Reminder/Reminder";
+import AddReminder from "./containers/Reminder/AddReminder";
+import UpdateReminder from "./containers/Reminder/UpdateReminder";
 
 function App() {
   useEffect(() => {}, []);
@@ -18,7 +18,10 @@ function App() {
             <Route exact path="/Home" element={<Home />} />
             <Route path="/Reminder" element={<Reminder />} />
             <Route path="/Reminder/AddReminder" element={<AddReminder />} />
-            <Route path="/Reminder/UpdateReminder/:id" element={<UpdateReminder />} />
+            <Route
+              path="/Reminder/UpdateReminder/:id"
+              element={<UpdateReminder />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

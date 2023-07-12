@@ -110,7 +110,7 @@ export default function AddReminder() {
               handleClickAlert();
               setTimeout(function () {
                 handleCloseAlert();
-                navigate("/Reminder");
+                navigate("/Home");
               }, 2000);
             } else {
               setMessageAlert("Something wrong");
@@ -141,7 +141,7 @@ export default function AddReminder() {
                           id="remindDate"
                           name="remindDate"
                           label="remindDate *"
-                          value={values?.remindDate}
+                          // value={values?.remindDate}
                           onChange={(e) => {
                             setFieldValue("remindDate", e);
                           }}
@@ -165,7 +165,6 @@ export default function AddReminder() {
                           id="remindTime"
                           name="remindTime"
                           label="remindTime *"
-                          value={values?.remindTime}
                           onChange={(e) => {
                             setFieldValue("remindTime", e);
                           }}

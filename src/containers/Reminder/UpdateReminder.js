@@ -9,7 +9,6 @@ import {
   Snackbar,
   Button,
 } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import * as reminderActions from "../../redux/actions/reminder.actions";
@@ -21,9 +20,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateValidationError } from "@mui/x-date-pickers/models";
 import moment from "moment/moment";
 import Swal from "sweetalert2";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -41,7 +41,7 @@ export default function EditReminder() {
 
   const handleDelete = () => {
     Swal.fire({
-      //title: "Are you sure?",
+      title: "Are you sure?",
       text: "Do you want to Delete ?",
       icon: "warning",
       showCancelButton: true,
@@ -59,7 +59,7 @@ export default function EditReminder() {
             setTimeout(function () {
               handleCloseAlert();
               navigate("/Reminder");
-            }, 2000);
+            }, 300);
           } else {
             setMessageAlert("Something wrong");
             setSeverity("error");
@@ -135,11 +135,11 @@ export default function EditReminder() {
           formData.append("id", values?.id);
           formData.append(
             "remindDate",
-            moment(values?.remindDate).format("DD/MM/yyyy")
+            moment(values?.remindDate.$d).format("DD/MM/yyyy")
           );
           formData.append(
             "remindTime",
-            moment(values?.remindTime).format("hh:mm:ss")
+            moment(values?.remindTime.$d).format("hh:mm:ss")
           );
           formData.append("description", values?.description);
           formData.append("createBy", values?.createBy);
@@ -151,8 +151,8 @@ export default function EditReminder() {
               handleClickAlert();
               setTimeout(function () {
                 handleCloseAlert();
-                navigate("/Reminder");
-              }, 2000);
+                navigate("/Home");
+              }, 500);
             } else {
               setMessageAlert("Something wrong");
               setSeverity("error");
@@ -232,6 +232,7 @@ export default function EditReminder() {
                           label="createBy"
                           value={values?.createBy || ""}
                           onChange={handleChange}
+                          disabled
                         />
                       </Grid>
                       <Grid item md={12} xs={12}>
@@ -245,11 +246,22 @@ export default function EditReminder() {
                     </Grid>
                   </LocalizationProvider>
                 </CardContent>
-                <CardActions>
-                  <LoadingButton onClick={handleSubmit} variant="outlined">
+
+                <CardActions sx={{ justifyContent: "space-between" }}>
+                  <Button
+                    onClick={handleSubmit}
+                    variant="outlined"
+                    color="success"
+                    startIcon={<HowToRegIcon />}
+                  >
                     <span>Submit</span>
-                  </LoadingButton>
-                  <Button onClick={handleDelete} variant="outlined">
+                  </Button>
+                  <Button
+                    onClick={handleDelete}
+                    variant="outlined"
+                    color="error"
+                    startIcon={<DeleteIcon />}
+                  >
                     <span>Delete</span>
                   </Button>
                 </CardActions>

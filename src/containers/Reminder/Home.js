@@ -9,11 +9,13 @@ import Typography from "@mui/material/Typography";
 import { Box, Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import * as reminderActions from "../../redux/actions/reminder.actions";
+import * as homeActions from "../../redux/actions/home.actions";
 import AddIcon from "@mui/icons-material/Add";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
 import moment from "moment/moment";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -34,18 +36,40 @@ export default function Home() {
     setOpenAlert(false);
   };
 
-  const { isFetching, result } = useSelector((state) => state.reminderReducer);
+  const reminderReducer = useSelector((state) => state.reminderReducer);
+  const homeReducer = useSelector((state) => state.homeReducer);
   React.useEffect(() => {
     dispatch(reminderActions.loadReminderFromNow());
+    dispatch(homeActions.loadReminderFromNow());
   }, [dispatch]);
-  console.log(result);
-  console.log(isFetching);
+  console.log(reminderReducer?.result);
+  console.log(reminderReducer?.isFetching);
+  console.log(homeReducer?.result);
+  console.log(homeReducer?.isFetching);
+
+  function formatDate(date) {
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
   return (
     <Box sx={{ pt: 0.5 }}>
-      {!isFetching && result ? (
+      {!reminderReducer?.isFetching && reminderReducer?.result ? (
         <Grid container spacing={3}>
-          <Grid item md={12}>
-            <Box sx={{ textAlign: "right" }}>
+          <Grid item md={10}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" component="div">
+                  Today is "{formatDate(new Date())}" Total Reminders:{" "}
+                  {homeReducer?.result?.data?.count}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item md={2}>
+            <Box sx={{ textAlign: "center" }}>
               <Button
                 onClick={() => {
                   navigate("/Reminder/AddReminder");
@@ -58,7 +82,7 @@ export default function Home() {
               </Button>
             </Box>
           </Grid>
-          {result?.data?.map((item, index) => (
+          {reminderReducer?.result?.data?.map((item, index) => (
             <Grid key={index} item xs={12}>
               <Card>
                 <CardContent>
@@ -88,6 +112,8 @@ export default function Home() {
                           }}
                           size="small"
                           variant="outlined"
+                          color="info"
+                          startIcon={<EditIcon />}
                         >
                           Edit
                         </Button>

@@ -14,6 +14,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
 import moment from "moment/moment";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function Reminder() {
   const dispatch = useDispatch();
@@ -44,7 +45,16 @@ export default function Reminder() {
     <Box sx={{ pt: 0.5 }}>
       {!isFetching && result ? (
         <Grid container spacing={3}>
-          <Grid item md={12}>
+          <Grid item md={10}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" component="div">
+                  The total number of all reminders : {result?.data?.length}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item md={2}>
             <Box sx={{ textAlign: "right" }}>
               <Button
                 onClick={() => {
@@ -88,6 +98,8 @@ export default function Reminder() {
                           }}
                           size="small"
                           variant="outlined"
+                          color="info"
+                          startIcon={<EditIcon />}
                         >
                           Edit
                         </Button>

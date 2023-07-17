@@ -16,6 +16,8 @@ import Swal from "sweetalert2";
 import dayjs from "dayjs";
 import moment from "moment/moment";
 import EditIcon from "@mui/icons-material/Edit";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -54,6 +56,29 @@ export default function Home() {
     return `${day}/${month}/${year}`;
   }
 
+  const isCheckDateTime = (date, time) => {
+    const dateNow = moment(new Date()).format("yyyy/MM/DD");
+    const remindDate = moment(date).format("yyyy/MM/DD");
+
+    const timeNow = moment(new Date()).format("HH:mm");
+    const remindTime = moment(time).format("HH:mm");
+
+    console.log("Date Now", dateNow);
+    console.log("Remind Date", remindDate);
+    console.log("Time Now", timeNow);
+    console.log("Remind Time", remindTime);
+
+    if (dateNow >= remindDate) {
+      if (timeNow.toString() >= remindTime.toString()) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  };
+
   return (
     <Box sx={{ pt: 0.5 }}>
       {!reminderReducer?.isFetching && reminderReducer?.result ? (
@@ -62,7 +87,7 @@ export default function Home() {
             <Card>
               <CardContent>
                 <Typography variant="h6" component="div">
-                  Today is "{formatDate(new Date())}" Total Reminders:{" "}
+                  Today is "{formatDate(new Date())}" - Total Reminders:{" "}
                   {homeReducer?.result?.data?.count}
                 </Typography>
               </CardContent>
@@ -87,14 +112,21 @@ export default function Home() {
               <Card>
                 <CardContent>
                   <Grid container spacing={3}>
-                    <Grid item md={2}>
+                    <Grid item md={1}>
+                      {isCheckDateTime(item?.remindDate, item?.remindTime) ? (
+                        <CheckCircleOutlineIcon />
+                      ) : (
+                        <AccessAlarmIcon />
+                      )}
+                    </Grid>
+                    <Grid item md={1}>
                       {item?.createBy}
                     </Grid>
                     <Grid item md={2}>
                       {moment(item?.remindDate).format("DD/MM/yyyy")}
                     </Grid>
                     <Grid item md={2}>
-                      {moment(item?.remindTime).format("hh:mm")}
+                      {moment(item?.remindTime).format("HH:mm")}
                     </Grid>
                     <Grid item md={4}>
                       {item?.description}

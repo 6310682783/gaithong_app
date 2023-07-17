@@ -15,6 +15,8 @@ import Swal from "sweetalert2";
 import dayjs from "dayjs";
 import moment from "moment/moment";
 import EditIcon from "@mui/icons-material/Edit";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 
 export default function Reminder() {
   const dispatch = useDispatch();
@@ -33,6 +35,29 @@ export default function Reminder() {
       return;
     }
     setOpenAlert(false);
+  };
+
+  const isCheckDateTime = (date, time) => {
+    const dateNow = moment(new Date()).format("yyyy/MM/DD");
+    const remindDate = moment(date).format("yyyy/MM/DD");
+
+    const timeNow = moment(new Date()).format("HH:mm");
+    const remindTime = moment(time).format("HH:mm");
+
+    console.log("Date Now", dateNow);
+    console.log("Remind Date", remindDate);
+    console.log("Time Now", timeNow);
+    console.log("Remind Time", remindTime);
+
+    if (dateNow >= remindDate) {
+      if (timeNow.toString() >= remindTime.toString()) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   };
 
   const { isFetching, result } = useSelector((state) => state.reminderReducer);
@@ -73,7 +98,14 @@ export default function Reminder() {
               <Card>
                 <CardContent>
                   <Grid container spacing={3}>
-                    <Grid item md={2}>
+                    <Grid item md={1}>
+                      {isCheckDateTime(item?.remindDate, item?.remindTime) ? (
+                        <CheckCircleOutlineIcon />
+                      ) : (
+                        <AccessAlarmIcon />
+                      )}
+                    </Grid>
+                    <Grid item md={1}>
                       {item?.createBy}
                     </Grid>
                     <Grid item md={2}>

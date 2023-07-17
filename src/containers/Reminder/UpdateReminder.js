@@ -139,7 +139,7 @@ export default function EditReminder() {
           );
           formData.append(
             "remindTime",
-            moment(values?.remindTime.$d).format("hh:mm:ss")
+            moment(values?.remindTime.$d).format("HH:mm")
           );
           formData.append("description", values?.description);
           formData.append("createBy", values?.createBy);
@@ -175,13 +175,17 @@ export default function EditReminder() {
             <Form>
               <Card sx={{ maxWidth: 300, justifyContent: "center" }}>
                 <CardContent>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                    adapterLocale="de"
+                  >
                     <Grid container spacing={2}>
                       <Grid item md={12} xs={12}>
                         <DatePicker
                           id="remindDate"
                           name="remindDate"
                           label="remindDate *"
+                          format="DD/MM/YYYY"
                           value={dayjs(values?.remindDate || null)}
                           onChange={(e) => {
                             setFieldValue("remindDate", e);
@@ -206,9 +210,9 @@ export default function EditReminder() {
                           id="remindTime"
                           name="remindTime"
                           label="remindTime *"
-                          value={dayjs(values?.remindTime || null)}
+                          format="HH:mm"
+                          value={moment(values?.remindTime || null)}
                           onChange={(e) => {
-                            console.log(e);
                             setFieldValue("remindTime", e);
                           }}
                           error={

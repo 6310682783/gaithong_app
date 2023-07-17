@@ -16,6 +16,7 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateValidationError } from "@mui/x-date-pickers/models";
 import moment from "moment/moment";
+import 'dayjs/locale/de';
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -98,7 +99,7 @@ export default function AddReminder() {
           );
           formData.append(
             "remindTime",
-            moment(values?.remindTime.$d).format("hh:mm:ss")
+            moment(values?.remindTime.$d).format("HH:mm")
           );
           formData.append("description", values?.description);
           formData.append("createBy", values?.createBy);
@@ -134,13 +135,14 @@ export default function AddReminder() {
             <Form>
               <Card sx={{ maxWidth: 300, justifyContent: "center" }}>
                 <CardContent>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                     <Grid container spacing={2}>
                       <Grid item md={12} xs={12}>
                         <DatePicker
                           id="remindDate"
                           name="remindDate"
                           label="remindDate *"
+                          format="DD/MM/YYYY"
                           // value={values?.remindDate}
                           onChange={(e) => {
                             setFieldValue("remindDate", e);

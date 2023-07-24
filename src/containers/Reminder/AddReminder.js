@@ -13,10 +13,10 @@ import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { DateValidationError } from "@mui/x-date-pickers/models";
 import moment from "moment/moment";
-import 'dayjs/locale/de';
+import "dayjs/locale/de";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -94,12 +94,11 @@ export default function AddReminder() {
           console.log("value ", values);
           let formData = new FormData();
           formData.append(
-            "remindDate",
-            moment(values?.remindDate.$d).format("DD/MM/yyyy")
+            "remindDate", moment(values?.remindDate).format("DD/MM/YYYY")
           );
           formData.append(
             "remindTime",
-            moment(values?.remindTime.$d).format("HH:mm")
+            moment(values?.remindTime).format("HH:mm")
           );
           formData.append("description", values?.description);
           formData.append("createBy", values?.createBy);
@@ -135,7 +134,10 @@ export default function AddReminder() {
             <Form>
               <Card sx={{ maxWidth: 300, justifyContent: "center" }}>
                 <CardContent>
-                  <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                  <LocalizationProvider
+                    dateAdapter={AdapterMoment}
+                    //adapterLocale="de"
+                  >
                     <Grid container spacing={2}>
                       <Grid item md={12} xs={12}>
                         <DatePicker
